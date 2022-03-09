@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 import os
 from env import user_name, password, host
@@ -44,5 +43,3 @@ def get_telco_data():
         df = telco_data()
         df.to_csv('telco_churn.csv')
     return df
-
-telco_data()
