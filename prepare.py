@@ -1,6 +1,5 @@
 import pandas as pd
 import os
-import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 
 pd.set_option('display.max_columns',None) 
@@ -103,26 +102,3 @@ def prepare (df):
     train, validate, test = split_data(clean_df)
 
     return train, validate, test
-
-# plot distributions
-def distribution (df):
-    cols =df.columns.to_list()
-    for col in cols:
-        if df[col].dtype != 'object':
-            plt.hist(df[col])
-            plt.title(f'Distribution of {col}')
-            plt.xlabel('values')
-            plt.ylabel('Counts of customers')
-            plt.show()
-
-
-# plot distributions
-def distribution_obj (df):
-    cols =df.columns.to_list()
-    for col in cols:
-        if df[col].dtype == 'object':
-            plt.hist(df[col])
-            plt.title(f'Distribution of {col}')
-            plt.xlabel('values')
-            plt.ylabel('Counts of customers')
-            plt.show()
