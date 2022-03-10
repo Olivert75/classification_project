@@ -15,67 +15,75 @@ warnings.filterwarnings("ignore")
 
 def clean_data(df):
     '''
-    This function will drop payment_type_id', 'internet_service_type_id','contract_type_id', 
-    convert all the columns that have yes/no to 0/1, 
-    create dummy vars from 'gender', 'contract_type', 'internet_service_type', 'payment_type',
-    change total_charges from object typeto a float type. 
+    This function will drop uneccessary columns or duplicates that is not useful for analysis.  
+    change total_charges from object type to a float type. 
+    create dummy variables for telco data that have the object type columns and then join with it original telco dataframe. 
+    after joining, drop the columns that used to create dummy dataframe.
+    and then return original telco dataframe.
     '''
 
-    #clean data
+    #Clean data
 
-    #drop duplicate rows, if present
+    #Drop duplicate rows, if present
     df = df.drop_duplicates()
-    #drop most of id columns since it is not useful in analysis
+    #Drop most of id columns since it is not useful in analysis
     df = df.drop(columns = ['customer_id','internet_service_type_id','payment_type_id','contract_type_id'])
 
-    #conver total_charges to float
+    #Conver total_charges to float
     df['total_charges'] = df.total_charges.replace(' ', '0').astype(float)
     
-    #create a dummy df
-    col_list = df.select_dtypes('object').columns.to_list()
+    #Create a dummy df
+    col_list = list(df.select_dtypes('object').columns)
 
-    #create a dummy df
+    #Create a dummy df and then 
+    #create a loop to make it look through the list above
+    #then drop some drops that is repeatedly
     for col in col_list:
-        dummy_df = pd.get_dummies(df[col],prefix=df[col].name,drop_first=True,dummy_na=False)
-    # Concatenate the dummy_df dataframe above with the original df
+        dummy_df = pd.get_dummies(df[col_list])
+        dummy_df = dummy_df.drop(columns = ['gender_Female',
+                                    'phone_service_No',
+                                    'multiple_lines_No',
+                                    'multiple_lines_No phone service',
+                                    'online_security_No',
+                                    'online_security_No internet service',
+                                    'online_backup_No',
+                                    'online_backup_No internet service',
+                                    'device_protection_No',
+                                    'device_protection_No internet service',
+                                    'tech_support_No',
+                                    'tech_support_No internet service',
+                                    'streaming_tv_No',
+                                    'streaming_tv_No internet service',
+                                    'streaming_movies_No',
+                                    'streaming_movies_No internet service',
+                                    'partner_No',
+                                    'dependents_No',
+                                    'phone_service_No',
+                                    'multiple_lines_No',
+                                    'multiple_lines_No phone service',
+                                    'paperless_billing_No',
+                                    'churn_No'])
+        
+    #Concatenate the dummy_df dataframe above with the original df
         df = pd.concat([df, dummy_df], axis=1)
-    # drop the columns that we already use to create dummy_df
+    
+    #Drop the columns that we already use to create dummy_df
         df.drop(columns=col, inplace=True)
     
-    #drop duplicates columns again
-    #df.drop(columns = ['payment_type_id', 'internet_service_type_id','contract_type_id'], inplace=True)
-    
-    # rename columns
-    df = df.rename(columns={'gender_Male':'gender',
-                            'dependents_Yes':'dependents',
-                            'partner_Yes':'partner',
-                            'phone_service_Yes':'one_line',
-                            'multiple_lines_No phone service': 'no_phone_service',
-                            'multiple_lines_Yes':'multiple_lines', 
-                            'online_security_No internet service': 'online_security_with_no_internet service',
-                            'online_security_Yes':'online_security',
-                            'online_backup_No internet service':'online_backup_with_no_internet service',
-                            'online_backup_Yes':'online_backup',
-                            'device_protection_No internet service':'device_protection_with_no_internet service',
-                            'device_protection_Yes':'device_protection',
-                            'tech_support_No internet service':'tech_support_with_no_internet service',
-                            'tech_support_Yes':'tech_support',
-                            'streaming_tv_No internet service':'streaming_tv_with_no_internet service',
-                            'streaming_tv_Yes':'streaming_tv',
-                            'streaming_movies_No internet service':'streaming_movies_with_no_internet service',
-                            'streaming_movies_Yes':'streaming_movies',
-                            'paperless_billing_Yes':'paperless_billing',
-                            'churn_Yes':'churn',
-                            'contract_type_One year':'one_year',
-                            'contract_type_Two year':'two_year',
-                            'payment_type_Credit card (automatic)':'Auto_pay',
-                            'payment_type_Electronic check':'electronic_check',
-                            'payment_type_Mailed check':'mailed_check',
-                            'internet_service_type_Fiber optic':'fiber_optic',
-                            'internet_service_type_None':'no_internet_service'})
+    #Rename columns so more its meaningful 
+        df = df.rename(columns={'churn_Yes':'churn',
+                                'contract_type_Month-to-month':'month_to_month',
+                                'contract_type_One year':'one_year',
+                                'contract_type_Two year':'two_year',
+                                'payment_type_Bank transfer (automatic)':'bank_transfer',
+                                'payment_type_Credit card (automatic)':'credit_card',
+                                'payment_type_Electronic check':'electronic_check',
+                                'payment_type_Mailed check':'mailed_check',
+                                'internet_service_type_DSL':'dsl',
+                                'internet_service_type_Fiber optic':'fiber_optic',
+                                'internet_service_type_None':'no_internet_service'})
     
     return df
-
 
 def split_data(df):
     '''
