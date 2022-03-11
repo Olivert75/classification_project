@@ -7,18 +7,19 @@ def churn_bar(df):
     #This function create a bar plot for churn rate
     #Plot churn rate base on number of customers
     
-    df = df.churn.value_counts()
+    df = df.churn_Yes.value_counts()
     plt.figure(figsize=(6,8))
     df.plot.bar(rot = 0)
     plt.title(f"Overall churn rate: {churn_rate:.2%}")
     plt.xlabel('Churn')
     plt.ylabel('Customers')
+
     plt.show()
 
 #Create a heatmap show to the positve and negative related to churn
 def get_churn_heatmap(df):
     plt.figure(figsize=(8,12))
-    churn_heatmap = sns.heatmap(df.corr()[['churn']].sort_values(by='churn', ascending=False), vmin=-.5, vmax=.5, annot=True)
+    churn_heatmap = sns.heatmap(df.corr()[['churn_Yes']].sort_values(by='churn_Yes', ascending=False), vmin=-.5, vmax=.5, annot=True)
     churn_heatmap.set_title('Feautures Correlating with Churn')
     
     return churn_heatmap
@@ -29,15 +30,18 @@ def plot_tenure (df, tenure):
     '''
     plt.figure(figsize=(15,10))
     # Distribution of Tenure
-    sns.histplot(df,
-                 x=df[tenure],
-                 hue='churn',
-                 multiple='stack',
-                 binwidth=1          
-                 )
+   
+
+    sns.histplot(train,
+             x=train.tenure,
+             hue='churn_Yes',
+             multiple='stack',
+             legend=False
+             )
 
     plt.title("Distribution of Tenure")
     plt.xlabel('Tenure (in months)')
+    plt.legend(title = 'churn', loc='upper right',labels=[0,1])
     plt.xlim(1, df[tenure].median())
 
 def bar_plot (features, df):
