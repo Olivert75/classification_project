@@ -31,9 +31,7 @@ def plot_tenure (df, tenure):
     plt.figure(figsize=(15,10))
     # Distribution of Tenure
    
-
-    sns.histplot(train,
-             x=train.tenure,
+    sns.histplot(train, x=train.tenure,
              hue='churn_Yes',
              multiple='stack',
              legend=False
@@ -56,7 +54,7 @@ def bar_plot (features, df):
         ax[i].set_xlabel('Churn')
         ax[i].set_ylabel(f'Churn Rate ={churn_rate:.2%}')
         ax[i].set_title(feature)
-        ax[i].axhline(churn_rate, ls='--', color='red')
+        ax[i].axhline(churn_rate, ls='--', color='black')
 
 def report_tenure (train, tenure):
     '''
@@ -69,15 +67,15 @@ def report_tenure (train, tenure):
     report_tenure (df, tenure)
     
     '''
-    #add 1 so the numer given is included in the condiction ['tenure_months'] < tenure
-    tenure= tenure + 1
+    #Set the tensure at 12
+    tenure = 12
     #cols has all the columns that I want to check
-    cols = ['monthly_charges','month_to_month',
-        'one_year','two_year',
-        'dsl','fiber_optic','multiple_lines_Yes',
-        'electronic_check','paperless_billing_Yes', 
-        'bank_transfer','credit_card','mailed_check',
-        'tenure', 'churn']
+    cols = ['monthly_charges',
+            'tenure', 'churn_Yes','one_year','two_year',
+            'paperless_billing_Yes','credit_card',
+            'mailed_check','electronic_check',
+            'phone_service_Yes','multiple_lines_Yes',
+            'fiber_optic','no_internet_service']
     
     #create a df with the fist months of tenure specified in the function
     df_t1 =train[cols][train['tenure'] <= tenure ]
@@ -88,7 +86,7 @@ def report_tenure (train, tenure):
     #create a df and churn =1
     churndf = df_t1[(df_t1['churn']== 1)]
     #df of customers who have service phone
-    cols_m = ['multiple_lines_Yes','monthly_charges','dsl','fiber_optic', 'electronic_check', 'paperless_billing_Yes','month_to_month','one_year','two_year']
+    cols_m = ['multiple_lines_Yes','monthly_charges','fiber_optic', 'electronic_check', 'paperless_billing_Yes','one_year','two_year']
     ml_df = churndf[cols_m].groupby('multiple_lines_Yes').sum()
     #calculate the total of phone service
     phone = ml_df.iloc[1:3, 5:].sum().sum()
@@ -134,29 +132,3 @@ def report_tenure (train, tenure):
     print(f'Two year contract:        {(tyc/can):.2%} ')
     print(f"Paperless_billing:        {(ppl/can):.2%}")
     print(f'Electronic_check payment type : {(ec/can):.2%} ')
-
-def get_metrics_binary(clf):
-    '''
-    This function takes in a confusion matrix (cnf) for a binary classifier and prints out metrics based on
-    values in variables named X_train, y_train, and y_pred.
-    return: a classification report as a transposed DataFrame
-    '''
-    X_train, y_train = train[x_col], train[y_col]
-
-    X_validate, y_validate = validate[x_col], validate[y_col]
-
-    X_test, y_test = test[x_col], validate[y_col]
-
-    accuracy = clf.score(X_train, y_train)
-    class_report = pd.DataFrame(classification_report(y_train, y_pred, output_dict=True)).T
-    conf = confusion_matrix(y_train, y_pred)
-    tpr = conf[1][1] / conf[1].sum()
-    fpr = conf[0][1] / conf[0].sum()
-    tnr = conf[0][0] / conf[0].sum()
-    fnr = conf[1][0] / conf[1].sum()
-    print(f'''
-    The accuracy for our model is {accuracy:.4}
-    The True Positive Rate is {tpr:.3}, The False Positive Rate is {fpr:.3},
-    The True Negative Rate is {tnr:.3}, and the False Negative Rate is {fnr:.3}
-    ''')
-    return class_report
