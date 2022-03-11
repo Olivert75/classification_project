@@ -27,13 +27,14 @@ def clean_data(df):
     #Drop duplicate rows, if present
     df = df.drop_duplicates()
     #Drop most of id columns since it is not useful in analysis
-    df = df.drop(columns = ['customer_id','internet_service_type_id','payment_type_id','contract_type_id'])
+    #Keep the customer id column because need it to make prediction.csv 
+    df = df.drop(columns = ['internet_service_type_id','payment_type_id','contract_type_id'])
 
     #Conver total_charges to float
     df['total_charges'] = df.total_charges.replace(' ', '0').astype(float)
     
-    #Create a dummy df
-    col_list = list(df.select_dtypes('object').columns)
+    #Select every columns that is object type except the customer_id 
+    col_list = list(df.select_dtypes('object').columns)[1:]
 
     #Create a dummy df and then 
     #create a loop to make it look through the list above
