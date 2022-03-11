@@ -39,30 +39,14 @@ def clean_data(df):
     #create a loop to make it look through the list above
     #then drop some drops that is repeatedly
     for col in col_list:
-        dummy_df = pd.get_dummies(df[col_list])
-        dummy_df = dummy_df.drop(columns = ['gender_Female',
-                                    'phone_service_No',
-                                    'multiple_lines_No',
-                                    'multiple_lines_No phone service',
-                                    'online_security_No',
-                                    'online_security_No internet service',
-                                    'online_backup_No',
+        dummy_df = pd.get_dummies(df[col_list],dummy_na=False, drop_first=True)
+        dummy_df = dummy_df.drop(columns = ['multiple_lines_No phone service',
                                     'online_backup_No internet service',
-                                    'device_protection_No',
+                                    'online_security_No internet service',
                                     'device_protection_No internet service',
-                                    'tech_support_No',
                                     'tech_support_No internet service',
-                                    'streaming_tv_No',
                                     'streaming_tv_No internet service',
-                                    'streaming_movies_No',
-                                    'streaming_movies_No internet service',
-                                    'partner_No',
-                                    'dependents_No',
-                                    'phone_service_No',
-                                    'multiple_lines_No',
-                                    'multiple_lines_No phone service',
-                                    'paperless_billing_No',
-                                    'churn_No'])
+                                    'streaming_movies_No internet service'])
         
     #Concatenate the dummy_df dataframe above with the original df
         df = pd.concat([df, dummy_df], axis=1)
@@ -71,17 +55,13 @@ def clean_data(df):
         df.drop(columns=col, inplace=True)
     
     #Rename columns so more its meaningful 
-        df = df.rename(columns={'churn_Yes':'churn',
-                                'contract_type_Month-to-month':'month_to_month',
-                                'contract_type_One year':'one_year',
-                                'contract_type_Two year':'two_year',
-                                'payment_type_Bank transfer (automatic)':'bank_transfer',
-                                'payment_type_Credit card (automatic)':'credit_card',
-                                'payment_type_Electronic check':'electronic_check',
-                                'payment_type_Mailed check':'mailed_check',
-                                'internet_service_type_DSL':'dsl',
-                                'internet_service_type_Fiber optic':'fiber_optic',
-                                'internet_service_type_None':'no_internet_service'})
+        df = df.rename(columns={'contract_type_One year':'one_year',
+                            'contract_type_Two year':'two_year',
+                            'payment_type_Credit card (automatic)':'credit_card',
+                            'payment_type_Electronic check':'electronic_check',
+                            'payment_type_Mailed check':'mailed_check',
+                            'internet_service_type_Fiber optic':'fiber_optic',
+                            'internet_service_type_None':'no_internet_service'})
     
     return df
 
@@ -94,12 +74,12 @@ def split_data(df):
     train_validate, test = train_test_split(df, 
                                             test_size=.2, 
                                             random_state=123, 
-                                            stratify=df.churn)
+                                            stratify=df.churn_Yes)
 
     train, validate = train_test_split(train_validate, 
                                        test_size=.3, 
                                        random_state=123, 
-                                       stratify=train_validate.churn)
+                                       stratify=train_validate.churn_Yes)
     return train, validate, test
 
 def prepare (df):
