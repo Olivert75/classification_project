@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 def churn_bar(df):
     #This function create a bar plot for churn rate
     #Plot churn rate base on number of customers
-    
+    churn_rate = df['churn_Yes'].mean()
     df = df.churn_Yes.value_counts()
     plt.figure(figsize=(6,8))
     df.plot.bar(rot = 0)
@@ -29,7 +29,7 @@ def plot_tenure (df, tenure):
     Take in a df and tenure and plot tenure and churn
     '''
     # Distribution of Tenure
-    sns.displot(train, x=train.tenure,
+    sns.displot(df, x=df.tenure,
              hue='churn_Yes',
              multiple='stack',
              legend=False
@@ -43,6 +43,7 @@ def bar_plot (features, df):
     '''
     Take in a length of features to plot and churn_rate.
     '''
+    churn_rate = df['churn_Yes'].mean()
     _, ax = plt.subplots(nrows=1, ncols=len(features), figsize=(16, 6), sharey=True)
     for i, feature in enumerate(features):
         sns.barplot(feature, 'churn_Yes', data=df, ax=ax[i], alpha=0.5, saturation=1)
@@ -85,7 +86,7 @@ def report_tenure (train, tenure):
            'contract_type_Month-to-month','contract_type_One year','contract_type_Two year','churn_Yes']
     res_df= pd.DataFrame((churned_df[cols_1v].sum()),columns=['churn_counts'])
     # let's see the churn rate
-    churn_rate = train['churn'].mean()
+    churn_rate = train['churn_Yes'].mean()
     #customers with electronic_check and have canceled
     ec=(res_df.loc['electronic_check'][0]).astype(int)
     #customers with paperless billing and have canceled
