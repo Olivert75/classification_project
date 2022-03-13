@@ -30,6 +30,10 @@ def clean_data(df):
     #Conver total_charges to float
     df['total_charges'] = df.total_charges.replace(' ', '0').astype(float)
     
+    #Replacing no internet service and no phone service with a no so it alittle easier to encoding
+    df.replace('No internet service', 'No', inplace=True)
+    df.replace('No phone service', 'No', inplace = True)
+    
     #Convert yes and no to 1 and 0 respectively 
     #Changing the type of some columns that are object to int but not all
     #Do the same for other columns except contract type, payment type and internet service
