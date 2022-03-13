@@ -29,6 +29,8 @@ def clean_data(df):
     
     #Conver total_charges to float
     df['total_charges'] = df.total_charges.replace(' ', '0').astype(float)
+    #total_charges had 11 null values and filled nulls with the mean of all total charges.
+    df.total_charges = df.total_charges.fillna(value=df.total_charges.mean()).astype(float)
     
     #Replacing no internet service and no phone service with a no so it alittle easier to encoding
     df.replace('No internet service', 'No', inplace=True)
