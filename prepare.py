@@ -79,7 +79,8 @@ def clean_data(df):
 
     #Drop most of id columns since it is not useful in analysis
     #Keep the customer id column because need it to make prediction.csv 
-    df = df.drop(columns = ['gender','internet_service_type_id','payment_type_id','contract_type_id'])
+    df = df.drop(columns = ['gender','internet_service_type_id','payment_type_id','contract_type_id',
+                            'internet_service_type_id.1','payment_type_id.1','contract_type_id.1'])
 
     #Select every columns that is object type except the customer_id 
     col_list = list(df.select_dtypes('object').columns)[1:]
@@ -87,18 +88,17 @@ def clean_data(df):
     #Create a dummy df and then 
     #create a loop to make it look through the list above
     #then drop some drops that is repeatedly
-    for col in col_list:
-        dummy_df = pd.get_dummies(df[col_list],dummy_na=False, drop_first=False)
-        dummy_df = dummy_df.drop(columns = ['churn_No'])
+    dummy_df = pd.get_dummies(df[col_list],dummy_na=False, drop_first=False)
+    dummy_df = dummy_df.drop(columns = ['churn_No'])
         
     #Concatenate the dummy_df dataframe above with the original df
-        df = pd.concat([df, dummy_df], axis=1)
+    df = pd.concat([df, dummy_df], axis=1)
     
     #Drop the columns that we already use to create dummy_df
-        df.drop(columns=col, inplace=True)
+    df.drop(columns=col_list, inplace=True)
     
     #Rename columns so more its meaningful 
-        df = df.rename(columns={'payment_type_Credit card (automatic)':'credit_card',
+    df = df.rename(columns={'payment_type_Credit card (automatic)':'credit_card',
                             'payment_type_Bank transfer (automatic)':'bank_transfer',
                             'payment_type_Electronic check':'electronic_check',
                             'payment_type_Mailed check':'mailed_check',
