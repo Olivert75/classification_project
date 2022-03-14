@@ -69,7 +69,7 @@ def report_tenure (train, tenure):
     #cols has all the columns that I want to check
     cols = ['dsl','fiber_optic','multiple_lines','phone_service',
         'bank_transfer','paperless_billing','electronic_check','mailed_check','credit_card','no_internet_service',
-        'contract_type_Month-to-month','contract_type_One year','contract_type_Two year',
+        'month_to_month','contract_type_One year','contract_type_Two year',
         'tenure','churn_Yes','total_charges','monthly_charges']
     
     #create a df with the fist months of tenure specified in the function
@@ -83,7 +83,7 @@ def report_tenure (train, tenure):
     #create report of  churn = 1 and tenure < tenure
     cols_1v = ['monthly_charges','electronic_check','paperless_billing',
            'fiber_optic',
-           'contract_type_Month-to-month','contract_type_One year','contract_type_Two year','churn_Yes']
+           'month_to_month','contract_type_One year','contract_type_Two year','churn_Yes']
     res_df= pd.DataFrame((churned_df[cols_1v].sum()),columns=['churn_counts'])
     # let's see the churn rate
     churn_rate = train['churn_Yes'].mean()
