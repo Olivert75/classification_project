@@ -98,7 +98,8 @@ def clean_data(df):
     df.drop(columns=col_list, inplace=True)
     
     #Rename columns so more its meaningful 
-    df = df.rename(columns={'payment_type_Credit card (automatic)':'credit_card',
+    df = df.rename(columns={'contract_type_Month-to-month':'month_to_month',
+                            'payment_type_Credit card (automatic)':'credit_card',
                             'payment_type_Bank transfer (automatic)':'bank_transfer',
                             'payment_type_Electronic check':'electronic_check',
                             'payment_type_Mailed check':'mailed_check',
