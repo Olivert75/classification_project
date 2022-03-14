@@ -3,22 +3,22 @@
 - Predict customer churn at Telco, a telecommunications company, using a machine learning classification model.
 <br>
 
-## Project Objectives
+#### Project Objectives
 
--Document code, process (data acquistion, preparation, exploratory data analysis, statistical testing, modeling(model evaluation), findings, and key takeaways in a Jupyter Notebook report.
+- Document code, process (data acquistion, preparation, exploratory data analysis, statistical testing, modeling(model evaluation), findings, and key takeaways in a Jupyter Notebook report.
 
--Create modules (acquire.py, prepare.py, explore.py) that make your process repeateable.
+- Create modules (acquire.py, prepare.py, explore.py) that make your process repeateable.
 
--Construct a model to predict customer churn using classification techniques.
+- Construct a model to predict customer churn using classification techniques.
 
--Deliver a 5 minute presentation consisting of a high-level notebook walkthrough using your Jupyter Notebook from above; your presentation should be appropriate for your target audience.
+- Deliver a 5 minute presentation consisting of a high-level notebook walkthrough using your Jupyter Notebook from above; your presentation should be appropriate for your target audience.
 
--Answer panel questions about your code, process, findings and key takeaways, and model.
+- Answer panel questions about your code, process, findings and key takeaways, and model.
 <br>
 
-#### GOALS 
+#### PROJECT GOALS 
 
-- Find drivers for customer churn at Telco.
+- Find drivers for customer churn at Telco, to help improve customer retention.
 
 - Construct a ML classification model that accurately predicts customer churn.
 
@@ -29,31 +29,34 @@
 ---
 | Attribute | Definition | Values|
 | ----- | ----- | ----- |
-senior_citizen|Indicates if the customer is 65 or older | 0(no), 1(yes)1 |
+customer_id| Uniquie id number to identify customer | Unique Values
+senior_citizen|Indicates if the customer is 65 or older | 0(not above 65), 1(above 65) |
 tenure|The length of a customers  with Telco  in months | numbers(in months) |
 monthly_charges|The amount a customer pays each month for services with Telco | numbers(US Dollars) |
 total_charges|The total amount a customer has paid for Telco™ services| numbers(US Dollars) |
-gender_male |Indicates sex of a customer |  | 0(female), 1(male) |
-partner_Yes|If a customer is married | 0(no), 1(yes) |
-dependents_Yes|Indicates if a customer lives with dependents | 0(no), 1(yes) |
-phone_service_Yes|If a customer has phone service | 0(no), 1(yes) |
-multiple_lines_Yes|If a customer has multiple phone lines | 0(no), 1(yes) |
-online_security_Yes|Indicates if a customer has online security add-on | 0(no), 1(yes) |
-online_backup_Yes|Indicates if a customer has online backups add-on | 0(no), 1(yes) |
-device_protection_Yes|Indicates if a customer has a protection plan for Telco devices  | 0(no), 1(yes) |
-tech_support_Yes|Indicates whether a customer has technical support add-on | 0(no), 1(yes) |
-streaming_tv_Yes|Indicates if a customer uses internet to stream tv | 0(no), 1(yes) |
-streaming_movies_Yes|Indicates if a customer uses internet to stream movies | 0(no), 1(yes) |
-paperless_billing_Yes|Indicates if a customer is enrolled in auto payment | 0(no), 1(yes) |
+is_male |Indicates sex of a customer |  | 0(female), 1(male) |
+partner|If a customer is married | 0(no), 1(yes) |
+dependents|Indicates if a customer lives with dependents | 0(no), 1(yes) |
+phone_service|If a customer has phone service | 0(no), 1(yes) |
+multiple_lines|If a customer has multiple phone lines | 0(no), 1(yes) |
+online_security|Indicates if a customer has online security add-on | 0(no), 1(yes) |
+online_backup|Indicates if a customer has online backups add-on | 0(no), 1(yes) |
+device_protection|Indicates if a customer has a protection plan for Telco devices  | 0(no), 1(yes) |
+tech_support|Indicates whether a customer has technical support add-on | 0(no), 1(yes) |
+streaming_tv|Indicates if a customer uses internet to stream tv | 0(no), 1(yes) |
+streaming_movies|Indicates if a customer uses internet to stream movies | 0(no), 1(yes) |
+paperless_billing|Indicates if a customer is enrolled in auto payment | 0(no), 1(yes) |
 churn_Yes | Indicates whether a customer has left service | 0(Still using the service), 1(Canceled the service) |
-one_year |Customers have a one year contract | 0(no), 1(yes) |
-two_year |Customers have a two year contract | 0(no), 1(yes) |
+month_to_month| Customers have a monthly contract | 0(no), 1(yes) |
+contract_type_One year |Customers have a one year contract | 0(no), 1(yes) |
+contract_type_Two year |Customers have a two year contract | 0(no), 1(yes) |
 credit_card|Customers use creit card as a type of payment | 0(no), 1(yes) |
+bank_transfer| Customers use bank transfer as a type of payment| 0(no), 1(yes) |
 electronic_check|Customers use electronic check as a type of payment | 0(no), 1(yes) |
 mailed_check|Customers mailed a check as a type of payment | 0(no), 1(yes) |
+dsl| Indicates the type of internet service as dsl| 0(no), 1(yes) |
 fiber_optic|Indicates the type of internet service as fiber optic | 0(no), 1(yes) |
 no_internet_service|Indicates if a customer has internet | 0(no), 1(yes) |
-
 <br>
 
 #### PROJECT PLANNIG
@@ -69,6 +72,12 @@ no_internet_service|Indicates if a customer has internet | 0(no), 1(yes) |
 - Create csv file with customer_id, probability of churn, and prediction of churn
 <br>
 
+#### INITIAL QUESTIONS
+- What are the overall churn rate?
+- Which features are contribute to churn?
+- What is the churn rate from the features above related to churn?
+- What is the churn rate in the first month of tenure?
+
 #### AUDIENCE
 
 Your target audience for your notebook walkthrough is your direct manager and their manager. This should guide your language and level of explanations in your walkthrough.
@@ -76,9 +85,9 @@ Your target audience for your notebook walkthrough is your direct manager and th
 
 #### INSTRUCTIONS FOR RECREATING PROJECT
 
-You will need your own env file with database credentials along with all the necessary files listed below to run my final project notebook.
+- You will need your own env file with database credentials along with all the necessary files listed below to run my final project notebook.
 
-Read this README.md Clone the aquire.py, prepare.py, explore.py, and telco_churn_final.ipynb files into your working directory Add your own env file to your directory. (user, password, host) Run the telco_churn_final.ipynb notebook
+- Read this README.md Clone the aquire.py, prepare.py, explore.py, and telco_churn_final.ipynb files into your working directory Add your own env file to your directory. (user, password, host) Run the telco_churn_final.ipynb notebook
 <br>
 
 #### DELIVER:
