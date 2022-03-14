@@ -6,13 +6,15 @@ import matplotlib.pyplot as plt
 def churn_bar(df):
     #This function create a bar plot for churn rate
     #Plot churn rate base on number of customers
+    #Change the x tick labels so it more meanigful rather than just 0 and 1
     churn_rate = df['churn_Yes'].mean()
     df = df.churn_Yes.value_counts()
     plt.figure(figsize=(6,8))
-    df.plot.bar(rot = 0)
+    df= df.plot.bar(rot = 0)
     plt.title(f"Overall churn rate: {churn_rate:.2%}")
     plt.xlabel('Churn')
     plt.ylabel('Customers')
+    df.set_xticklabels(['No Churn', 'Churned'])
 
     plt.show()
 
